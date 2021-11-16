@@ -1,25 +1,40 @@
 {
-"infoList":
-[
-{"panelTypeString":"Message",
-"path":"UIPanel/MessagePanel"},
+  "infoList": [
+    {
+      "panelTypeString": "Message",
+      "path": "UIPanel/MessagePanel"
+    },
 
-{"panelTypeString":"Start",
-"path":"UIPanel/StartPanel"},
+    {
+      "panelTypeString": "Start",
+      "path": "UIPanel/StartPanel"
+    },
 
-{"panelTypeString":"Login",
-"path":"UIPanel/LoginPanel"},
+    {
+      "panelTypeString": "Login",
+      "path": "UIPanel/LoginPanel"
+    },
 
-{"panelTypeString":"Register",
-"path":"UIPanel/RegisterPanel"},
+    {
+      "panelTypeString": "Register",
+      "path": "UIPanel/RegisterPanel"
+    },
 
-{"panelTypeString":"RoomList",
-"path":"UIPanel/RoomListPanel"},
+    {
+      "panelTypeString": "RoomList",
+      "path": "UIPanel/RoomListPanel"
+    },
 
-{"panelTypeString":"Room",
-"path":"UIPanel/RoomPanel"}
+    {
+      "panelTypeString": "Room",
+      "path": "UIPanel/RoomPanel"
+    },
+    {
+      "panelTypeString": "Game",
+      "path": "UIPanel/GamePanel"
+    }
 
 
 
-]
+  ]
 }

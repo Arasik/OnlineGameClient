@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Common;
 
 public class RoomPanel : BasePanel
 {
@@ -25,7 +26,9 @@ public class RoomPanel : BasePanel
     private UserData ud2 = null;
 
     private QuitRoomRequest quitRoomRequest;
+    private StartGameRequest startGameRequest;
     private bool IsPopPanel=false;
+
     private void Start()
     {
         localPlayerUsername = transform.Find("BluePanel/Username").GetComponent<Text>();
@@ -46,6 +49,7 @@ public class RoomPanel : BasePanel
         transform.Find("ExitButton").GetComponent<Button>().onClick.AddListener(OnExitClick);
 
         quitRoomRequest = GetComponent<QuitRoomRequest>();
+        startGameRequest = GetComponent<StartGameRequest>();
         //createRoomRequest = GetComponent<CreateRoomRequest>();
         OnEnter();
     }
@@ -67,10 +71,13 @@ public class RoomPanel : BasePanel
             ClearEnemyPlayerRes();
             ud = null;
         }
-        if(ud1!=null||ud2!=null)
+        if(ud1!=null)
         {
             SetLocalPlayerRes(ud1.Username, ud1.TotalCount.ToString(), ud1.WinCount.ToString());
-            SetEnemyPlayerRes(ud2.Username, ud2.TotalCount.ToString(), ud2.WinCount.ToString());
+            if (ud2 != null)
+                SetEnemyPlayerRes(ud2.Username, ud2.TotalCount.ToString(), ud2.WinCount.ToString());
+            else
+                ClearEnemyPlayerRes();
             ud1 = null;
             ud2 = null;
         }
@@ -79,6 +86,7 @@ public class RoomPanel : BasePanel
             UIMng.PopPanel();
             IsPopPanel = false;
         }
+
 
     }
     public void SetLocalPlayerRes(string username,string totalCount,string winCount)
@@ -101,7 +109,20 @@ public class RoomPanel : BasePanel
     }
     private void OnStartClick()
     {
-        
+        startGameRequest.SendRequest();
+    }
+    public void OnStartResponse(ReturnCode returnCode)
+    {
+        if (returnCode == ReturnCode.Fail)
+        {
+            UIMng.ShowMessageSync("您不是房主，无法开始游戏!");
+        }
+        else
+        {
+            //TODO
+            UIMng.PushPanelSync(UIPanelType.Game);
+            facade.EnterPlayingSync();
+        }
     }
     private void OnExitClick()
     {

@@ -24,7 +24,7 @@ public class AudioManager : BaseManager
         bgAudioSource = audioSourceGO.AddComponent<AudioSource>();
         normalAudioSource = audioSourceGO.AddComponent<AudioSource>();
 
-        PlaySound(bgAudioSource, LoadSound(Sound_Bg_Moderate), true);
+        //PlaySound(bgAudioSource, LoadSound(Sound_Bg_Moderate), true);
     }
     public void PlayBgSound(string soundName)
     {
@@ -44,5 +44,6 @@ public class AudioManager : BaseManager
     private AudioClip LoadSound(string soundsName)
     {
         return Resources.Load<AudioClip>(Sound_Prefix + soundsName);
+        //return null;
     }
 }
