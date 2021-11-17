@@ -12,8 +12,13 @@ public class PlayerManager : BaseManager
     private GameObject playerSyncRequest;
     private GameObject remoteRoleGameObject;
     private ShootRequest shootRequest;
+    private AttackRequest attackRequest;
 
-
+    public void UpdateResult(int totalCount,int winCount)
+    {
+        UserData.TotalCount = totalCount;
+        userData.WinCount = winCount;
+    }
     public void SetCurrentRoleType(RoleType rt)
     {
         currentRoleType = rt;
@@ -41,13 +46,16 @@ public class PlayerManager : BaseManager
         foreach(RoleData rd in roleDataDict.Values)
         {
             GameObject go = GameObject.Instantiate(rd.RolePrefab, rd.SpawnPosition, Quaternion.identity);
+            go.tag = "Player";
             if (rd.RoleType == currentRoleType) 
             {
                 currentRoleGameObject = go;
+                currentRoleGameObject.GetComponent<PlayerInfo>().isLocal = true;
             }
             else
             {
                 remoteRoleGameObject = go;
+                remoteRoleGameObject.GetComponent<PlayerInfo>().isLocal = false;
             }
             
         }
@@ -81,10 +89,12 @@ public class PlayerManager : BaseManager
         
         shootRequest= playerSyncRequest.AddComponent<ShootRequest>();
         shootRequest.playerMng = this;
+        attackRequest = playerSyncRequest.AddComponent<AttackRequest>();
     }
     public void Shoot(GameObject arrowPrefab,Vector3 pos,Quaternion rotation)
     {
-        GameObject.Instantiate(arrowPrefab, pos, rotation);
+        facade.PlayNormalSound(AudioManager.Sound_Timer);
+        GameObject.Instantiate(arrowPrefab, pos, rotation).GetComponent<Arrow>().isLocal=true;
         shootRequest.SendRequest(arrowPrefab.GetComponent<Arrow>().roleType, pos, rotation.eulerAngles);
     }
     public void RemoteShoot(RoleType rt, Vector3 pos, Vector3 rotation)
@@ -93,5 +103,17 @@ public class PlayerManager : BaseManager
         Transform transform = GameObject.Instantiate(arrowPrefab).GetComponent<Transform>();
         transform.position = pos;
         transform.eulerAngles = rotation;
+    }
+    public void SendAttack(int damage)
+    {
+        attackRequest.SendRequest(damage);
+    }
+    public void GameOver()
+    {
+        GameObject.Destroy(currentRoleGameObject);
+        GameObject.Destroy(playerSyncRequest);
+        GameObject.Destroy(remoteRoleGameObject);
+        shootRequest = null;
+        attackRequest = null;
     }
 }

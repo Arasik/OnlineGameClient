@@ -6,7 +6,16 @@ using Common;
 public class GameFacade : MonoBehaviour
 {
     private static GameFacade _instance;
-    public static GameFacade Instance { get { return _instance; } }
+    public static GameFacade Instance { 
+        get 
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.Find("GameFacade").GetComponent<GameFacade>();
+            }
+            return _instance;
+        }
+    }
     private UIManager uiMng;
     private AudioManager audioMng;
     private PlayerManager playerMng;
@@ -14,14 +23,14 @@ public class GameFacade : MonoBehaviour
     private RequestManager requestMng;
     private ClientManager clientMng;
     private bool isEnterPlaying=false;
-    private void Awake()
-    {
-        if(_instance!=null)
-        {
-            Destroy(this.gameObject);return;
-        }
-        _instance = this;
-    }
+    //private void Awake()
+    //{
+    //    if(_instance!=null)
+    //    {
+    //        Destroy(this.gameObject);return;
+    //    }
+    //    _instance = this;
+    //}
     // Start is called before the first frame update
     void Start()
     {
@@ -134,5 +143,18 @@ public class GameFacade : MonoBehaviour
     {
         playerMng.AddControlScript();
         playerMng.CreateSyncRequest();
+    }
+    public void SendAttack(int damage)
+    {
+        playerMng.SendAttack(damage);
+    }
+    public void GameOver()
+    {
+        cameraMng.WalkthroughScene();
+        playerMng.GameOver();
+    }
+    public void UpdateResult(int totalCount, int winCount)
+    {
+        playerMng.UpdateResult(totalCount, winCount);
     }
 }

@@ -32,6 +32,7 @@ public class BaseRequest : MonoBehaviour
     public virtual void OnResponse(string data) { }
     public virtual void OnDestroy()
     {
-        GameFacade.Instance.RemoveRequest(actionCode);
+        if(GameFacade.Instance!=null)
+            GameFacade.Instance.RemoveRequest(actionCode);
     }
 }

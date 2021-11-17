@@ -13,7 +13,7 @@ public class AudioManager : BaseManager
     public const string Sound_ButtonClick = "ButtonClick";
     public const string Sound_Miss = "Miss";
     public const string Sound_ShootPerson = "ShootPerson";
-    public const string Sound_Sound_Timer = "Timer";
+    public const string Sound_Timer = "Timer";
 
     private AudioSource bgAudioSource;
     private AudioSource normalAudioSource;

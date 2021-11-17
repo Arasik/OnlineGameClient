@@ -60,7 +60,10 @@ public class ClientManager:BaseManager
     public void SendRequest(RequestCode requestCode,ActionCode actionCode,string data)
     {
         byte[] bytes = Message.PackData(requestCode, actionCode, data);
-        clientSocket.Send(bytes);
+        if(clientSocket!=null)
+            clientSocket.Send(bytes);
+        else
+            Debug.LogError("客户端已连接失效,无法发送数据");
     }
     public override void OnDestroy()
     {

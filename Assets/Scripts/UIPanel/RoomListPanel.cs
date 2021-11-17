@@ -104,6 +104,11 @@ public class RoomListPanel : BasePanel
 
         transform.Find("BattleRes/Wincount").GetComponent<Text>().text = "Ê¤³¡£º"+ud.WinCount.ToString();
     }
+    public void OnUpdateResultResponse(int totalCount,int winCount)
+    {
+        facade.UpdateResult(totalCount,winCount);
+        SetBattleRes();//TODO
+    }
     private void Update()
     {
         if(udList!=null)

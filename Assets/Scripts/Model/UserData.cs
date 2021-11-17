@@ -5,8 +5,8 @@ using UnityEngine;
 public class UserData
 {
     public string Username { get; private set; }
-    public int TotalCount { get; private set; }
-    public int WinCount { get; private set; }
+    public int TotalCount { get;  set; }
+    public int WinCount { get;  set; }
     public int Id { get; set; }
 
     public UserData(string userData)
