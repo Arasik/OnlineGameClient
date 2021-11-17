@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 895019116002958440}
   - component: {fileID: 5243731837524695873}
   m_Layer: 0
-  m_Name: ArrowBlue
+  m_Name: Arrow_BLUE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6566956739713228158}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.674, y: 1.387, z: 1.93997}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7143923344036669769}
@@ -321,3 +321,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  roleType: 0

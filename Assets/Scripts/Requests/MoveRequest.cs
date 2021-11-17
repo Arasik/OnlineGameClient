@@ -70,18 +70,11 @@ public class MoveRequest : BaseRequest
         base.OnResponse(data);
         string[] strs = data.Split('|');
 
-        pos = Parse(strs[0]);
-        rotation = Parse(strs[1]);
+        pos = UnityTools.ParseVector3(strs[0]);
+        rotation = UnityTools.ParseVector3(strs[1]);
         forward = float.Parse(strs[2]);
         isSyncRemotePlayer = true;
 
     }
-    private Vector3 Parse(string str)
-    {
-        string[] strs = str.Split(',');
-        float x = float.Parse(strs[0]);
-        float y = float.Parse(strs[1]);
-        float z = float.Parse(strs[2]);
-        return new Vector3(x, y, z);
-    }
+    
 }

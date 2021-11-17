@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator anim;
     private Transform leftHandTrans;
     private Vector3 shootDir;
+    private PlayerManager playerMng;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -17,14 +18,14 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
         {
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 bool IsCollider = Physics.Raycast(ray, out hit);
-                if(IsCollider)
+                if (IsCollider)
                 {
                     Vector3 point = hit.point;
 
@@ -39,11 +40,15 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
+    public void SetPlayerMng(PlayerManager playerManager)
+    {
+        this.playerMng = playerManager ;
+    }
     private void Shoot()
     {
-        //targetPoint.y = transform.position.y;
-        //Vector3 dir = targetPoint - transform.position;
-        GameObject.Instantiate(arrowPrefab, leftHandTrans.position, Quaternion.LookRotation(shootDir));
+        
+        playerMng.Shoot(arrowPrefab,leftHandTrans.position,Quaternion.LookRotation(shootDir));
+        
         
     }
 }

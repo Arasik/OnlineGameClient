@@ -1,21 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+using Common;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Arrow : MonoBehaviour
 {
-    public int speed=5;
-    private Rigidbody rigidbody;
+    public int speed=10;
+    private Rigidbody rigidbody_;
+    public RoleType roleType;
+    public GameObject explosionEffect;
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbody_ = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        rigidbody.MovePosition(transform.position+transform.forward*speed*Time.deltaTime);
+        rigidbody_.MovePosition(transform.position+transform.forward*speed*Time.fixedDeltaTime);
         //transform.Translate(Vector3.forward*speed*Time.deltaTime);
+        Debug.Log(rigidbody_.velocity.magnitude);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject.Instantiate(explosionEffect, transform.position, transform.rotation);
+        GameObject.Destroy(gameObject);
     }
 }

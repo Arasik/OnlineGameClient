@@ -11,6 +11,8 @@ public class PlayerManager : BaseManager
     private GameObject currentRoleGameObject;
     private GameObject playerSyncRequest;
     private GameObject remoteRoleGameObject;
+    private ShootRequest shootRequest;
+
 
     public void SetCurrentRoleType(RoleType rt)
     {
@@ -31,8 +33,8 @@ public class PlayerManager : BaseManager
     }
     private void InitRoleDataDict()
     {
-        roleDataDict.Add(RoleType.Blue, new RoleData(RoleType.Blue, "Hunter_BLUE", "Arrow_BLUE", rolePositions.Find("Position1")));
-        roleDataDict.Add(RoleType.Red, new RoleData(RoleType.Red, "Hunter_RED", "Arrow_RED", rolePositions.Find("Position2")));
+        roleDataDict.Add(RoleType.Blue, new RoleData(RoleType.Blue, "Hunter_BLUE", "Arrow_BLUE", "Explosion_BLUE",rolePositions.Find("Position1")));
+        roleDataDict.Add(RoleType.Red, new RoleData(RoleType.Red, "Hunter_RED", "Arrow_RED", "Explosion_RED", rolePositions.Find("Position2")));
     }
     public void SpawnRoles()
     {
@@ -67,6 +69,7 @@ public class PlayerManager : BaseManager
         RoleType rt = currentRoleGameObject.GetComponent<PlayerInfo>().roleType;
         RoleData rd = GetRoleData(rt);
         playerAttack.arrowPrefab = rd.ArrowPrefab;
+        playerAttack.SetPlayerMng(this);
     }
     public void CreateSyncRequest()
     {
@@ -75,6 +78,20 @@ public class PlayerManager : BaseManager
             currentRoleGameObject.transform,
             currentRoleGameObject.GetComponent<PlayerMove>()
             ).SetRemotePlayer(remoteRoleGameObject.transform);
-
+        
+        shootRequest= playerSyncRequest.AddComponent<ShootRequest>();
+        shootRequest.playerMng = this;
+    }
+    public void Shoot(GameObject arrowPrefab,Vector3 pos,Quaternion rotation)
+    {
+        GameObject.Instantiate(arrowPrefab, pos, rotation);
+        shootRequest.SendRequest(arrowPrefab.GetComponent<Arrow>().roleType, pos, rotation.eulerAngles);
+    }
+    public void RemoteShoot(RoleType rt, Vector3 pos, Vector3 rotation)
+    {
+        GameObject arrowPrefab = GetRoleData(rt).ArrowPrefab;
+        Transform transform = GameObject.Instantiate(arrowPrefab).GetComponent<Transform>();
+        transform.position = pos;
+        transform.eulerAngles = rotation;
     }
 }
